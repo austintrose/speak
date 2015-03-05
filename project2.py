@@ -21,7 +21,6 @@ parser.add_option("-p", "--port", type="int", dest="port")
 parser.add_option("-r", "--protocol", dest="protocol")
 parser.add_option("-s", "--sample-latency", type="int", dest="sample_latency")
 options = parser.parse_args()[0]
-print options
 
 def receive_and_play(connection):
     device = alsaaudio.PCM(type=alsaaudio.PCM_PLAYBACK,
@@ -84,7 +83,7 @@ if options.host:
     send_thread(options.destination, options.port + 1)
 
 else:
-    send_thread(options.host, options.port)
+    send_thread(options.destination, options.port)
     receive_thread('', options.port + 1)
 
 while True:
