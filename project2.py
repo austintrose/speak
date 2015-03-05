@@ -98,7 +98,7 @@ def receive_thread(host, port):
         receive_socket = socket(AF_INET, SOCK_DGRAM)
         receive_socket.bind((host, port))
         receive_socket.setblocking(0)
-        read_function = lambda: receive_socket.recvfrom(1024)
+        read_function = lambda: receive_socket.recvfrom(1024)[0]
 
     receive_thread = Thread(target=receive_and_play, args=(read_function,))
     receive_thread.setDaemon(True)
