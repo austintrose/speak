@@ -58,8 +58,9 @@ def receive_and_play(connection):
         data = connection.recv(1024)
 
         # Percent chance to pretend we didn't get the packet.
-        if random.random() * 100 < options.loss:
-            continue
+        if options.loss > 0:
+            if random.random() * 100 < options.loss:
+                continue
 
         if data:
             device.write(data)
