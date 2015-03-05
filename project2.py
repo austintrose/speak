@@ -44,6 +44,8 @@ def receive_and_play(host, port):
     receive_socket.listen(1)
     connection, address = receive_socket.accept()
 
+    send_thread(address)
+
     device = alsaaudio.PCM(type=alsaaudio.PCM_PLAYBACK,
                            mode=alsaaudio.PCM_NONBLOCK,
                            card="default")
@@ -57,7 +59,6 @@ def receive_and_play(host, port):
         data = connection.recv(1024)
         if data:
             device.write(data)
-            # connection.send('ACK')
 
     connection.close()
 
@@ -65,6 +66,8 @@ def receive_and_play(host, port):
 def record_and_send(host, port):
     send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     send_socket.connect((host, port))
+
+    receive_thread('', port)
 
     device = alsaaudio.PCM(type=alsaaudio.PCM_CAPTURE,
                            mode=alsaaudio.PCM_NONBLOCK,
@@ -79,10 +82,9 @@ def record_and_send(host, port):
         l, data = device.read()
         if l:
             send_socket.send(data)
-            # send_socket.recv(1024)
-        # sleep(0.02)
 
     send_socket.close()
+
 
 def receive_thread(host, port):
     receive_thread = Thread(target=receive_and_play, args=('', options.port))
