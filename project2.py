@@ -15,29 +15,13 @@ defaults = {
 }
 
 parser = OptionParser()
-
-parser.add_option("-t", "--host", dest="host", metavar="HOST",
-                  default=defaults['host'],
-                  help="IPV4 address or hostname to connect to.")
-
-parser.add_option("-p", "--port", dest="port", metavar="PORT",
-                  default=defaults["port"],
-                  help="Port to connect to. Default: %d." % defaults["port"])
-
-parser.add_option("-r", "--protocol", dest="protocol", metavar="PROTOCOL",
-                  default=defaults["protocol"],
-                  help="Protcol to communicate with. TCP or UDP. Default: %s."
-                       % defaults["protocol"])
-
-parser.add_option("-s", "--sample-latency", dest="sample_latency",
-                  metavar="SAMPLE_LATENCY",
-                  default=defaults["sample_latency"],
-                  help="Audio sampling latency in milliseconds. Default: %d."
-                       % defaults["sample_latency"])
-
-options, _ = parser.parse_args()
-options.port = int(options.port)
-options.sample_interval = int(options.port)
+parser.add_option("-b", "--be-host", dest="host", action="store_true")
+parser.add_option("-d", "--destination", dest="destination")
+parser.add_option("-p", "--port", type="int", dest="port")
+parser.add_option("-r", "--protocol", dest="protocol")
+parser.add_option("-s", "--sample-latency", type="int", dest="sample_latency")
+options = parser.parse_args()[0]
+print options
 
 def receive_and_play(connection):
     device = alsaaudio.PCM(type=alsaaudio.PCM_PLAYBACK,
@@ -55,7 +39,6 @@ def receive_and_play(connection):
             device.write(data)
 
     connection.close()
-
 
 def record_and_send(sock):
     device = alsaaudio.PCM(type=alsaaudio.PCM_CAPTURE,
@@ -95,14 +78,14 @@ def send_thread(host, port):
     send_thread.setDaemon(True)
     send_thread.start()
 
-try:
-    send_thread(options.host, options.port)
-    receive_thread('', options.port + 1)
-
-except:
+if options.host:
     receive_thread('', options.port)
     sleep(1)
-    send_thread(options.host, options.port + 1)
+    send_thread(options.destination, options.port + 1)
+
+else:
+    send_thread(options.host, options.port)
+    receive_thread('', options.port + 1)
 
 while True:
     pass

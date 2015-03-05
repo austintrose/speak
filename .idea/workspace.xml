@@ -30,11 +30,10 @@
           <file leaf-file-name="project2.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/project2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.26992896" vertical-offset="0" max-vertical-offset="1881">
-                  <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.7000789" vertical-offset="576" max-vertical-offset="1843">
+                  <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
                   <folding>
                     <element signature="e#0#13#0" expanded="true" />
-                    <element signature="e#1347#1751#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -365,7 +364,6 @@
           <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#1347#1751#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -474,11 +472,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/project2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26992896" vertical-offset="0" max-vertical-offset="1881">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7000789" vertical-offset="576" max-vertical-offset="1843">
+          <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#1347#1751#0" expanded="false" />
           </folding>
         </state>
       </provider>
