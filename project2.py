@@ -111,6 +111,7 @@ def record_and_send(write_function):
 
 def get_upper_threshold(silence_data):
     print [unpack('B', s) for s in silence_data]
+    return 1
 
 def create_receiving_thread(host, port):
     """
