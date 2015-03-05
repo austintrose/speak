@@ -76,6 +76,7 @@ def record_and_send(sock):
 
 def receive_thread(host, port):
     receive_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    receive_socket.setblocking(0)
     receive_socket.bind((host, port))
     receive_socket.listen(1)
     connection, address = receive_socket.accept()
@@ -86,17 +87,16 @@ def receive_thread(host, port):
 
 def send_thread(host, port):
     send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    send_socket.setblocking(0)
     send_socket.connect((host, port))
 
     send_thread = Thread(target=record_and_send, args=(send_socket,))
     send_thread.setDaemon(True)
     send_thread.start()
 
-try:
-    send_thread(options.host, options.port+1)
+if options.host is None:
     receive_thread('', options.port)
-except:
-    receive_thread('', options.port+1)
+else:
     send_thread(options.host, options.port)
 
 while True:
