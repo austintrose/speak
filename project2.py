@@ -54,7 +54,11 @@ def receive_and_play(read_function):
 
     while True:
         sleep(options.sample_latency)
-        data = read_function()
+
+        try:
+            data = read_function()
+        except:
+            continue
 
         # Percent chance to artificially "lose" the packet.
         if options.loss > 0:
@@ -106,7 +110,7 @@ def send_thread(host, port):
         send_socket.connect((host, port))
         send_socket.setblocking(0)
         write_function = send_socket.send
-        
+
     elif options.protocol == "UDP":
         send_socket = socket(AF_INET, SOCK_DGRAM)
         write_function = lambda x: send_socket.sendto(x, (host, port))
