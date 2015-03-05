@@ -21,6 +21,7 @@ parser.add_option("-p", "--port", type="int", dest="port")
 parser.add_option("-r", "--protocol", dest="protocol")
 parser.add_option("-s", "--sample-latency", type="int", dest="sample_latency")
 options = parser.parse_args()[0]
+options.sample_latency = options.sample_latency / 1000.0
 
 def receive_and_play(connection):
     device = alsaaudio.PCM(type=alsaaudio.PCM_PLAYBACK,
@@ -33,11 +34,10 @@ def receive_and_play(connection):
     device.setperiodsize(160)
 
     while True:
+        sleep(options.sample_latency)
         data = connection.recv(1024)
         if data:
             device.write(data)
-
-    connection.close()
 
 def record_and_send(sock):
     device = alsaaudio.PCM(type=alsaaudio.PCM_CAPTURE,
@@ -52,13 +52,7 @@ def record_and_send(sock):
     while True:
         l, data = device.read()
         if l:
-            try:
-                sock.send(data)
-            except:
-                pass
-
-    sock.close()
-
+            sock.send(data)
 
 def receive_thread(host, port):
     receive_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
