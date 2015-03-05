@@ -44,7 +44,7 @@ def receive_and_play(host, port):
     receive_socket.listen(1)
     connection, address = receive_socket.accept()
 
-    send_thread(address)
+    send_thread(*address)
 
     device = alsaaudio.PCM(type=alsaaudio.PCM_PLAYBACK,
                            mode=alsaaudio.PCM_NONBLOCK,
