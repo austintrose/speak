@@ -55,7 +55,7 @@ def record_and_send(sock):
             try:
                 sock.send(data)
             except:
-                break
+                pass
 
     sock.close()
 
@@ -93,6 +93,6 @@ try:
 
     while True:
         pass
-    
+
 except:
     print "Exiting."
