@@ -1,9 +1,10 @@
 from socket import *
 import random
-import alsaaudio
 from optparse import OptionParser
 from threading import Thread
 from time import sleep
+
+from alsaaudio import *
 
 
 def parse_parameters():
@@ -37,22 +38,28 @@ def parse_parameters():
 
     return options
 
+
 options = parse_parameters()
+
 
 def configure_device(d):
     d.setchannels(1)
     d.setrate(8000)
-    d.setformat(alsaaudio.PCM_FORMAT_U8)
+    d.setformat(PCM_FORMAT_U8)
     d.setperiodsize(160)
 
-def receive_and_play(read_function):
-    device = alsaaudio.PCM(type=alsaaudio.PCM_PLAYBACK,
-                           mode=alsaaudio.PCM_NONBLOCK,
-                           card="default")
 
+def receive_and_play(read_function):
+    """
+    Open up the audio device for playback, and supply input by looping over the given function.
+
+    """
+
+    device = PCM(type=PCM_PLAYBACK, mode=PCM_NONBLOCK, card="default")
     configure_device(device)
 
     while True:
+
         sleep(options.sample_latency)
 
         try:
@@ -68,70 +75,99 @@ def receive_and_play(read_function):
         if data:
             device.write(data)
 
-def record_and_send(write_function):
-    device = alsaaudio.PCM(type=alsaaudio.PCM_CAPTURE,
-                           mode=alsaaudio.PCM_NONBLOCK,
-                           card='default')
 
+def record_and_send(write_function):
+    """
+    Open up the audio device for playback, and call the given function with each chunk sampled.
+
+    """
+
+    device = PCM(type=PCM_CAPTURE, mode=PCM_NONBLOCK, card='default')
     configure_device(device)
 
     while True:
-        l, data = device.read()
+        success, data = device.read()
 
         try:
-            if l:
+            if success:
                 write_function(data)
         except:
             break
 
-def receive_thread(host, port):
+
+def create_receiving_thread(host, port):
+    """
+    Spawn a thread which will listen for a voice stream at the given address and forward whatever is received for playback on the audio device.
+
+    """
+
     if options.protocol == "TCP":
         receive_socket = socket(AF_INET,SOCK_STREAM)
         receive_socket.bind((host, port))
         receive_socket.listen(1)
+
         connection, address = receive_socket.accept()
-        print "%s connected on port %d." % address
-        receive_socket.setblocking(0)
         read_function = lambda: connection.recv(1024)
 
     elif options.protocol == "UDP":
         receive_socket = socket(AF_INET, SOCK_DGRAM)
         receive_socket.bind((host, port))
-        receive_socket.setblocking(0)
+
         read_function = lambda: receive_socket.recvfrom(1024)[0]
+
+    receive_socket.setblocking(0)
 
     receive_thread = Thread(target=receive_and_play, args=(read_function,))
     receive_thread.setDaemon(True)
     receive_thread.start()
 
-def send_thread(host, port):
+
+def create_sending_thread(host, port):
+    """
+    Spawn a thread which will record from the audio device and send samples to the given address.
+
+    """
+
     if options.protocol == "TCP":
         send_socket = socket(AF_INET, SOCK_STREAM)
         send_socket.connect((host, port))
-        send_socket.setblocking(0)
+
         write_function = send_socket.send
 
     elif options.protocol == "UDP":
         send_socket = socket(AF_INET, SOCK_DGRAM)
+
         write_function = lambda x: send_socket.sendto(x, (host, port))
+
+    send_socket.setblocking(0)
 
     send_thread = Thread(target=record_and_send, args=(write_function,))
     send_thread.setDaemon(True)
     send_thread.start()
 
+
 try:
     if options.host:
-        receive_thread('', options.port)
+
+        # Receive partners connection.
+        create_receiving_thread('', options.port)
+
+        # Wait a second for partner to start listening for their receiving connection.
         sleep(1)
-        send_thread(options.destination, options.port + 1)
+
+        # Start sending to partner.
+        create_sending_thread(options.destination, options.port + 1)
 
     else:
-        send_thread(options.destination, options.port)
-        receive_thread('', options.port + 1)
+        # Start sending to partner.
+        create_sending_thread(options.destination, options.port)
 
+        # Listen for connection from partner.
+        create_receiving_thread('', options.port + 1)
+
+    # Idle because the main thread is now done, but must stick around for Ctrl-C power.
     while True:
         pass
 
 except:
-
-    print "Exiting."
+    print "\nExiting."
