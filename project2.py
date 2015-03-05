@@ -45,7 +45,7 @@ def configure_device(d):
     d.setformat(alsaaudio.PCM_FORMAT_U8)
     d.setperiodsize(160)
 
-def receive_and_play(connection):
+def receive_and_play(read_function):
     device = alsaaudio.PCM(type=alsaaudio.PCM_PLAYBACK,
                            mode=alsaaudio.PCM_NONBLOCK,
                            card="default")
@@ -55,9 +55,10 @@ def receive_and_play(connection):
     while True:
         sleep(options.sample_latency)
 
-        data = connection.recv(1024)
+        # data = connection.recv(1024)
+        data = read_function(1024)
 
-        # Percent chance to pretend we didn't get the packet.
+        # Percent chance to artificially "lose" the packet.
         if options.loss > 0:
             if random.random() * 100 < options.loss:
                 continue
@@ -65,21 +66,19 @@ def receive_and_play(connection):
         if data:
             device.write(data)
 
-def record_and_send(sock):
+def record_and_send(write_function):
     device = alsaaudio.PCM(type=alsaaudio.PCM_CAPTURE,
                            mode=alsaaudio.PCM_NONBLOCK,
                            card='default')
 
-    device.setchannels(1)
-    device.setrate(8000)
-    device.setformat(alsaaudio.PCM_FORMAT_U8)
-    device.setperiodsize(160)
+    configure_device(device)
 
     while True:
         l, data = device.read()
         try:
             if l:
-                sock.send(data)
+                # sock.send(data)
+                write_function(data)
         except:
             break
 
@@ -91,7 +90,7 @@ def receive_thread(host, port):
     print "%s connected on port %d." % address
     receive_socket.setblocking(0)
 
-    receive_thread = Thread(target=receive_and_play, args=(connection,))
+    receive_thread = Thread(target=receive_and_play, args=(connection.recv,))
     receive_thread.setDaemon(True)
     receive_thread.start()
 
@@ -100,22 +99,29 @@ def send_thread(host, port):
     send_socket.connect((host, port))
     send_socket.setblocking(0)
 
-    send_thread = Thread(target=record_and_send, args=(send_socket,))
+    send_thread = Thread(target=record_and_send, args=(send_socket.send,))
     send_thread.setDaemon(True)
     send_thread.start()
 
 try:
     if options.host:
+
         receive_thread('', options.port)
+
         sleep(1)
+
         send_thread(options.destination, options.port + 1)
 
     else:
+
         send_thread(options.destination, options.port)
+
         receive_thread('', options.port + 1)
 
     while True:
+
         pass
 
 except:
+
     print "Exiting."
