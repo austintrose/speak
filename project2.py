@@ -80,19 +80,19 @@ def send_thread(host, port):
     send_thread = Thread(target=record_and_send, args=(send_socket,))
     send_thread.setDaemon(True)
     send_thread.start()
-    return send_thread
 
 try:
     if options.host:
         receive_thread('', options.port)
         sleep(1)
-        t = send_thread(options.destination, options.port + 1)
+        send_thread(options.destination, options.port + 1)
 
     else:
-        t =send_thread(options.destination, options.port)
+        send_thread(options.destination, options.port)
         receive_thread('', options.port + 1)
 
-    t.join()
-
+    while True:
+        pass
+    
 except:
     print "Exiting."
