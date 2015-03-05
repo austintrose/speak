@@ -103,7 +103,12 @@ def record_and_send(write_function):
                     upper_threshold = get_upper_threshold(silence_buffer[:800])
 
             else:
-                write_function(data)
+                for c in data:
+                    magnitude = abs(128 - unpack('B', c)[0])
+
+                    if magnitude > upper_threshold:
+                        write_function(data)
+                        break
 
         except:
             break
@@ -131,8 +136,9 @@ def get_upper_threshold(silence_data):
     i2 = 4 * imn
     itl = min(i1, i2)
     itu = 5 * itl
-    print "lower", itl, "upper", itu
+
     return itu
+
 
 def create_receiving_thread(host, port):
     """
