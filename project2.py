@@ -99,7 +99,7 @@ def send_thread(host, port):
     send_thread.setDaemon(True)
     send_thread.start()
 
-if options.job is "host":
+if options.job == "host":
     receive_thread('', options.port)
     send_thread(options.host, options.port + 1)
 
