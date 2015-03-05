@@ -16,10 +16,6 @@ defaults = {
 
 parser = OptionParser()
 
-parser.add_option("-j", "--job", dest="job", metavar="JOB",
-                  default=defaults['job'],
-                  help="host or client.")
-
 parser.add_option("-t", "--host", dest="host", metavar="HOST",
                   default=defaults['host'],
                   help="IPV4 address or hostname to connect to.")
@@ -99,13 +95,14 @@ def send_thread(host, port):
     send_thread.setDaemon(True)
     send_thread.start()
 
-if options.job == "host":
-    receive_thread('', options.port)
-    send_thread(options.host, options.port + 1)
-
-else:
+try:
     send_thread(options.host, options.port)
     receive_thread('', options.port + 1)
+
+except:
+    receive_thread('', options.port)
+    sleep(1)
+    send_thread(options.host, options.port + 1)
 
 while True:
     pass
