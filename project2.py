@@ -8,12 +8,17 @@ from time import sleep
 
 defaults = {
     "host": None,
+    "job": "host",
     "port": 9999,
     "protocol": "TCP",
     "sample_latency": 20
 }
 
 parser = OptionParser()
+
+parser.add_option("-j", "--job", dest="job", metavar="JOB",
+                  default=defaults['job'],
+                  help="host or client.")
 
 parser.add_option("-t", "--host", dest="host", metavar="HOST",
                   default=defaults['host'],
@@ -94,10 +99,13 @@ def send_thread(host, port):
     send_thread.setDaemon(True)
     send_thread.start()
 
-if options.host is None:
+if options.job is "host":
     receive_thread('', options.port)
+    send_thread(options.host, options.port + 1)
+
 else:
     send_thread(options.host, options.port)
+    receive_thread('', options.port + 1)
 
 while True:
     pass
