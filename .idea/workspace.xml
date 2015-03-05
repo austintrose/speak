@@ -27,19 +27,20 @@
     <splitter split-orientation="vertical" split-proportion="0.63861006">
       <split-first>
         <leaf>
-          <file leaf-file-name="project2.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/project2.py">
+          <file leaf-file-name="speak.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/speak.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.9035088" vertical-offset="894" max-vertical-offset="2603">
-                  <caret line="113" column="38" selection-start-line="113" selection-start-column="38" selection-end-line="113" selection-end-column="38" />
+                <state vertical-scroll-proportion="0.61904764" vertical-offset="0" max-vertical-offset="2071">
+                  <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
                   <folding>
-                    <element signature="e#0#20#0" expanded="true" />
-                    <element signature="e#1425#1517#0" expanded="false" />
-                    <element signature="e#1561#2129#0" expanded="false" />
-                    <element signature="e#3167#3274#0" expanded="false" />
-                    <element signature="e#3304#3739#0" expanded="false" />
-                    <element signature="e#3787#4587#0" expanded="false" />
-                    <element signature="e#4633#5235#0" expanded="false" />
+                    <element signature="e#34#54#0" expanded="true" />
+                    <element signature="e#236#1427#0" expanded="false" />
+                    <element signature="e#1459#1551#0" expanded="false" />
+                    <element signature="e#1595#2163#0" expanded="false" />
+                    <element signature="e#3201#3308#0" expanded="false" />
+                    <element signature="e#3338#3773#0" expanded="false" />
+                    <element signature="e#3821#4621#0" expanded="false" />
+                    <element signature="e#4667#5269#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -52,8 +53,8 @@
           <file leaf-file-name="README.txt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/README.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="1.0438799" vertical-offset="593" max-vertical-offset="1178">
-                  <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.5265589" vertical-offset="57" max-vertical-offset="1178">
+                  <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
@@ -72,8 +73,8 @@
         <option value="$PROJECT_DIR$/record.c" />
         <option value="$PROJECT_DIR$/connect.py" />
         <option value="$PROJECT_DIR$/speak.py" />
-        <option value="$PROJECT_DIR$/README.txt" />
         <option value="$PROJECT_DIR$/project2.py" />
+        <option value="$PROJECT_DIR$/README.txt" />
       </list>
     </option>
   </component>
@@ -344,7 +345,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1146" y="23" width="2294" height="1413" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24324325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -357,7 +358,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15763766" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15763766" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299923" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -391,58 +392,61 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/project2.py">
+    <entry file="file://$PROJECT_DIR$/speak.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="481" max-vertical-offset="2508">
           <caret line="39" column="42" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
           <folding>
-            <element signature="e#0#20#0" expanded="true" />
-            <element signature="e#1425#1517#0" expanded="false" />
-            <element signature="e#1561#2129#0" expanded="false" />
-            <element signature="e#3167#3274#0" expanded="false" />
-            <element signature="e#3304#3739#0" expanded="false" />
-            <element signature="e#3787#4587#0" expanded="false" />
-            <element signature="e#4633#5235#0" expanded="false" />
+            <element signature="e#34#54#0" expanded="true" />
+            <element signature="e#236#1427#0" expanded="false" />
+            <element signature="e#1459#1551#0" expanded="false" />
+            <element signature="e#1595#2163#0" expanded="false" />
+            <element signature="e#3201#3308#0" expanded="false" />
+            <element signature="e#3338#3773#0" expanded="false" />
+            <element signature="e#3821#4621#0" expanded="false" />
+            <element signature="e#4667#5269#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project2.py">
+    <entry file="file://$PROJECT_DIR$/speak.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="709" max-vertical-offset="2071">
           <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
           <folding>
-            <element signature="e#0#20#0" expanded="true" />
-            <element signature="e#1425#1517#0" expanded="false" />
-            <element signature="e#1561#2129#0" expanded="false" />
-            <element signature="e#3167#3274#0" expanded="false" />
-            <element signature="e#3304#3739#0" expanded="false" />
-            <element signature="e#3787#4587#0" expanded="false" />
-            <element signature="e#4633#5235#0" expanded="false" />
+            <element signature="e#34#54#0" expanded="true" />
+            <element signature="e#236#1427#0" expanded="false" />
+            <element signature="e#1459#1551#0" expanded="false" />
+            <element signature="e#1595#2163#0" expanded="false" />
+            <element signature="e#3201#3308#0" expanded="false" />
+            <element signature="e#3338#3773#0" expanded="false" />
+            <element signature="e#3821#4621#0" expanded="false" />
+            <element signature="e#4667#5269#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0438799" vertical-offset="593" max-vertical-offset="1178">
-          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.5265589" vertical-offset="57" max-vertical-offset="1178">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project2.py">
+    <entry file="file://$PROJECT_DIR$/speak.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9035088" vertical-offset="894" max-vertical-offset="2603">
-          <caret line="113" column="38" selection-start-line="113" selection-start-column="38" selection-end-line="113" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.61904764" vertical-offset="0" max-vertical-offset="2071">
+          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
           <folding>
-            <element signature="e#0#20#0" expanded="true" />
-            <element signature="e#1425#1517#0" expanded="false" />
-            <element signature="e#1561#2129#0" expanded="false" />
-            <element signature="e#3167#3274#0" expanded="false" />
-            <element signature="e#3304#3739#0" expanded="false" />
-            <element signature="e#3787#4587#0" expanded="false" />
-            <element signature="e#4633#5235#0" expanded="false" />
+            <element signature="e#34#54#0" expanded="true" />
+            <element signature="e#236#1427#0" expanded="false" />
+            <element signature="e#1459#1551#0" expanded="false" />
+            <element signature="e#1595#2163#0" expanded="false" />
+            <element signature="e#3201#3308#0" expanded="false" />
+            <element signature="e#3338#3773#0" expanded="false" />
+            <element signature="e#3821#4621#0" expanded="false" />
+            <element signature="e#4667#5269#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -1,3 +1,7 @@
+# Austin Rose
+# CS529 Project 2
+
+
 from socket import *
 import random
 from optparse import OptionParser
