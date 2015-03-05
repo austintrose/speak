@@ -54,8 +54,6 @@ def receive_and_play(read_function):
 
     while True:
         sleep(options.sample_latency)
-
-        # data = connection.recv(1024)
         data = read_function()
 
         # Percent chance to artificially "lose" the packet.
@@ -75,52 +73,59 @@ def record_and_send(write_function):
 
     while True:
         l, data = device.read()
+
         try:
             if l:
-                # sock.send(data)
                 write_function(data)
         except:
             break
 
 def receive_thread(host, port):
-    receive_socket = socket(AF_INET,SOCK_STREAM)
-    receive_socket.bind((host, port))
-    receive_socket.listen(1)
-    connection, address = receive_socket.accept()
-    print "%s connected on port %d." % address
-    receive_socket.setblocking(0)
+    if options.protocol == "TCP":
+        receive_socket = socket(AF_INET,SOCK_STREAM)
+        receive_socket.bind((host, port))
+        receive_socket.listen(1)
+        connection, address = receive_socket.accept()
+        print "%s connected on port %d." % address
+        receive_socket.setblocking(0)
+        read_function = lambda: connection.recv(1024)
 
-    read_function = lambda: connection.recv(1024)
+    elif options.protocol == "UDP":
+        receive_socket = socket(AF_INET, SOCK_DGRAM)
+        receive_socket.bind((host, port))
+        receive_socket.setblocking(0)
+        read_function = lambda: receive_socket.recvfrom(1024)
+
     receive_thread = Thread(target=receive_and_play, args=(read_function,))
     receive_thread.setDaemon(True)
     receive_thread.start()
 
 def send_thread(host, port):
-    send_socket = socket(AF_INET, SOCK_STREAM)
-    send_socket.connect((host, port))
-    send_socket.setblocking(0)
+    if options.protocol == "TCP":
+        send_socket = socket(AF_INET, SOCK_STREAM)
+        send_socket.connect((host, port))
+        send_socket.setblocking(0)
+        write_function = send_socket.send
+        
+    elif options.protocol == "UDP":
+        send_socket = socket(AF_INET, SOCK_DGRAM)
+        write_function = lambda x: send_socket.sendto(x, (host, port))
 
-    send_thread = Thread(target=record_and_send, args=(send_socket.send,))
+    send_thread = Thread(target=record_and_send, args=(write_function,))
     send_thread.setDaemon(True)
     send_thread.start()
 
 try:
     if options.host:
-
         receive_thread('', options.port)
-
         sleep(1)
-
         send_thread(options.destination, options.port + 1)
 
     else:
-
         send_thread(options.destination, options.port)
-
         receive_thread('', options.port + 1)
 
     while True:
-
         pass
 
 except:
