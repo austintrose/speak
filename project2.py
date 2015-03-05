@@ -52,7 +52,10 @@ def record_and_send(sock):
     while True:
         l, data = device.read()
         if l:
-            sock.send(data)
+            try:
+                sock.send(data)
+            except:
+                pass
 
     sock.close()
 
@@ -62,6 +65,7 @@ def receive_thread(host, port):
     receive_socket.bind((host, port))
     receive_socket.listen(1)
     connection, address = receive_socket.accept()
+    print "%s connected on port %d." % address
     receive_socket.setblocking(0)
 
     receive_thread = Thread(target=receive_and_play, args=(connection,))
@@ -77,14 +81,17 @@ def send_thread(host, port):
     send_thread.setDaemon(True)
     send_thread.start()
 
-if options.host:
-    receive_thread('', options.port)
-    sleep(1)
-    send_thread(options.destination, options.port + 1)
+try:
+    if options.host:
+        receive_thread('', options.port)
+        sleep(1)
+        send_thread(options.destination, options.port + 1)
 
-else:
-    send_thread(options.destination, options.port)
-    receive_thread('', options.port + 1)
+    else:
+        send_thread(options.destination, options.port)
+        receive_thread('', options.port + 1)
 
-while True:
-    pass
+    while True:
+        pass
+except:
+    print "Exiting."
