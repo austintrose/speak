@@ -76,10 +76,10 @@ def record_and_send(sock):
 
 def receive_thread(host, port):
     receive_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    receive_socket.setblocking(0)
     receive_socket.bind((host, port))
     receive_socket.listen(1)
     connection, address = receive_socket.accept()
+    receive_socket.setblocking(0)
 
     receive_thread = Thread(target=receive_and_play, args=(connection,))
     receive_thread.setDaemon(True)
@@ -87,8 +87,8 @@ def receive_thread(host, port):
 
 def send_thread(host, port):
     send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    send_socket.setblocking(0)
     send_socket.connect((host, port))
+    send_socket.setblocking(0)
 
     send_thread = Thread(target=record_and_send, args=(send_socket,))
     send_thread.setDaemon(True)
