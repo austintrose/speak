@@ -34,6 +34,9 @@ def parse_parameters():
     # Millisecond latency in sampling the audio device.
     parser.add_option("-l", "--loss", type="int", dest="loss")
 
+    # Attempt to prevent transmitting silence bytes.
+    parser.add_option("-f", "--filter-silence", dest="filter_silence", action="store_true")
+
     options = parser.parse_args()[0]
     options.sample_latency = options.sample_latency / 1000.0
 
@@ -100,12 +103,15 @@ def record_and_send(write_function):
                     upper_threshold = itu(silence_buffer[:800])
 
             else:
-                for c in data:
-                    magnitude = abs(128 - unpack('B', c)[0])
+                if options.filter_silence:
+                    for c in data:
+                        magnitude = abs(128 - unpack('B', c)[0])
 
-                    if magnitude > upper_threshold:
-                        write_function(data)
-                        break
+                        if magnitude > upper_threshold:
+                            write_function(data)
+                            break
+                else:
+                    write_function(data)
 
         except:
             break
