@@ -56,7 +56,7 @@ def receive_and_play(read_function):
         sleep(options.sample_latency)
 
         # data = connection.recv(1024)
-        data = read_function(1024)
+        data = read_function()
 
         # Percent chance to artificially "lose" the packet.
         if options.loss > 0:
@@ -90,7 +90,8 @@ def receive_thread(host, port):
     print "%s connected on port %d." % address
     receive_socket.setblocking(0)
 
-    receive_thread = Thread(target=receive_and_play, args=(connection.recv,))
+    read_function = lambda: connection.recv(1024)
+    receive_thread = Thread(target=receive_and_play, args=(read_function,))
     receive_thread.setDaemon(True)
     receive_thread.start()
 
