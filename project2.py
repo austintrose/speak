@@ -55,7 +55,7 @@ def record_and_send(sock):
             try:
                 sock.send(data)
             except:
-                pass
+                break
 
     sock.close()
 
@@ -80,18 +80,19 @@ def send_thread(host, port):
     send_thread = Thread(target=record_and_send, args=(send_socket,))
     send_thread.setDaemon(True)
     send_thread.start()
+    return send_thread
 
 try:
     if options.host:
         receive_thread('', options.port)
         sleep(1)
-        send_thread(options.destination, options.port + 1)
+        t = send_thread(options.destination, options.port + 1)
 
     else:
-        send_thread(options.destination, options.port)
+        t =send_thread(options.destination, options.port)
         receive_thread('', options.port + 1)
 
-    while True:
-        pass
+    t.join()
+
 except:
     print "Exiting."
