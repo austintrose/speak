@@ -3,6 +3,7 @@ import random
 from optparse import OptionParser
 from threading import Thread
 from time import sleep
+from struct import unpack
 
 from alsaaudio import *
 
@@ -85,15 +86,31 @@ def record_and_send(write_function):
     device = PCM(type=PCM_CAPTURE, mode=PCM_NONBLOCK, card='default')
     configure_device(device)
 
+    upper_threshold = None
+    silence_buffer = ""
+
     while True:
         success, data = device.read()
 
         try:
-            if success:
+            if not success:
+                continue
+
+            if upper_threshold is None:
+                silence_buffer += data
+
+                if len(silence_buffer) >= 800:
+                    upper_threshold = get_upper_threshold(silence_buffer[:800])
+
+            else:
                 write_function(data)
+
         except:
             break
 
+
+def get_upper_threshold(silence_data):
+    print [unpack('B', s) for s in silence_data]
 
 def create_receiving_thread(host, port):
     """
