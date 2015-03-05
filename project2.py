@@ -109,9 +109,30 @@ def record_and_send(write_function):
             break
 
 
+def mean(x):
+    n, mean, = len(x), 0
+    for a in x:
+        mean = mean + a
+        mean = mean / float(n)
+    return mean
+
+
 def get_upper_threshold(silence_data):
-    print [unpack('B', s) for s in silence_data]
-    return 1
+    magnitudes = [abs(128-unpack('B', s)[0]) for s in silence_data]
+
+    energies = []
+    for i in xrange(len(magnitudes) - 80):
+        l = magnitudes[i:i+80]
+        energies.append(sum(l))
+
+    imx = max(energies)
+    imn = mean(energies)
+    i1 = 0.03 * (imx - imn) + imn
+    i2 = 4 * imn
+    itl = min(i1, i2)
+    itu = 5 * itl
+    print "lower", itl, "upper", itu
+    return itu
 
 def create_receiving_thread(host, port):
     """

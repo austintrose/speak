@@ -49,13 +49,6 @@ def parse_args():
 
     return options
 
-def mean(x):
-    "https://www.physics.rutgers.edu/~masud/computing/WPark_recipes_in_python.html"
-    n, mean, = len(x), 0
-    for a in x:
-        mean = mean + a
-        mean = mean / float(n)
-    return mean
 
 class Recorder(object):
 
