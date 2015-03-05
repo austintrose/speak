@@ -40,9 +40,6 @@ def parse_parameters():
     return options
 
 
-options = parse_parameters()
-
-
 def configure_device(d):
     d.setchannels(1)
     d.setrate(8000)
@@ -100,7 +97,7 @@ def record_and_send(write_function):
                 silence_buffer += data
 
                 if len(silence_buffer) >= 800:
-                    upper_threshold = get_upper_threshold(silence_buffer[:800])
+                    upper_threshold = itu(silence_buffer[:800])
 
             else:
                 for c in data:
@@ -122,7 +119,12 @@ def mean(x):
     return mean
 
 
-def get_upper_threshold(silence_data):
+def itu(silence_data):
+    """
+    Return an upper energy threshold based on the initial silence data.
+
+    """
+
     magnitudes = [abs(128-unpack('B', s)[0]) for s in silence_data]
 
     energies = []
@@ -189,6 +191,9 @@ def create_sending_thread(host, port):
     send_thread = Thread(target=record_and_send, args=(write_function,))
     send_thread.setDaemon(True)
     send_thread.start()
+
+
+options = parse_parameters()
 
 
 try:
